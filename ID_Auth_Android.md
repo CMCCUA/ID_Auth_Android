@@ -11,9 +11,9 @@ sdk技术问题沟通QQ群：609994083</br>
 
     b. 使用预取号方法提前缓存取号数据（非必要）；</br>
 
-    c. 使用`AuthnHelper`中的`getTokenExp`或`getTokenImp`方法，获得token。</br>
+    c. 使用`AuthnHelper`中的`getTokenExp`或`getIDToken`方法，获得token。</br>
 
-2. 在业务服务端调用`获取用户信息接口`或`本机号码校验接口`获取相关用户信息</br>
+2. 在业务服务端调用`获取用户信息接口`或`实名信息校验接口`获取相关用户信息</br>
 
 ## 1.2. 导入SDK的jar文件
 
@@ -212,7 +212,7 @@ mAuthnHelper.umcLoginPre(Constant.APP_ID,
 
 **功能**
 
-显式登录即一键登录，本方法用于实现**获取用户信息**功能。使用本方法获取到的token，可通过`获取用户信息接口`交换用户信息。</br>
+显式登录即一键登录，本方法用于实现**获取用户信息**功能。使用本方法获取到的token，可通过`获取用户信息接口`交换用户信息。**注意：通过本方法获取的token，无法调用实名信息校验接口。**</br>
 
 **交互过程**
 
@@ -293,9 +293,9 @@ mAuthnHelper.getTokenExp(Constant.APP_ID, Constant.APP_KEY,
 
 </br>
 
-## 2.5. 实名认证
+## 2.4. 实名认证
 
-### 2.5.1. 方法描述
+### 2.4.1. 方法描述
 
 **功能**
 
@@ -315,7 +315,7 @@ public void getIDToken(final String appId,
 
 </br>
 
-### 2.5.2. 参数说明
+### 2.4.2. 参数说明
 
 **请求参数**
 
@@ -343,7 +343,7 @@ OnGetTokenComplete的参数JSONObject，含义如下：
 
 </br>
 
-### 2.5.3. 示例
+### 2.4.3. 示例
 
 **请求示例代码**
 
@@ -365,9 +365,9 @@ mAuthnHelper.getIDToken(Constant.APP_ID, Constant.APP_KEY,
 
 
 
-## 2.6. 设置取号超时
+## 2.5. 设置取号超时
 
-###2.6.1. 方法描述
+###2.5.1. 方法描述
 
 设置取号超时时间，默认为8秒，应用在预取号阶段时，如果需要更改超时时间，可使用该方法配置。注
 
@@ -377,7 +377,7 @@ mAuthnHelper.getIDToken(Constant.APP_ID, Constant.APP_KEY,
 public void setTimeOut(int timeOut)
 ```
 
-###2.6.2. 参数说明
+###2.5.2. 参数说明
 
 **请求参数**
 
@@ -442,7 +442,7 @@ public void setTimeOut(int timeOut)
 
 </br>
 
-### 3.1.3. 示例
+### 3.1.4. 示例
 
 **请求示例**
 
@@ -475,7 +475,7 @@ public void setTimeOut(int timeOut)
 
 ### 3.2.1. 业务流程
 
-应用客户端只能通过`实名认证`方法获取到的token，才允许访问`实名信息校验接口`，校验用户的身份信息。**补充：**通过实名认证方法获取的token，可以同时访问获取用户信息接口和实名信息校验接口，token在2分钟内有效，该token对于获取用户信息接口，一次有效（取号后token失效）；对于实名信息校验接口，有效次数可配置（具体需联系移动认证方确认）。
+应用客户端只能通过`实名认证`方法获取到的token，才允许访问`实名信息校验接口`，校验用户的身份信息。**补充：**通过实名认证方法获取的token，可以同时访问获取用户信息接口和实名信息校验接口，token在2分钟内有效，该token对于`获取用户信息接口`，一次有效（取号后token失效）；对于`实名信息校验接口`，有效次数可配置（具体需联系移动认证方确认）。
 
 ![](ID_Auth_server_interact.png)
 
