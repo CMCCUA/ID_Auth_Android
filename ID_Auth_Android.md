@@ -389,6 +389,24 @@ public void setTimeOut(int timeOut)
 
 无
 
+## 2.6 自定义缓冲页面和授权登录页面的标题及登录按钮文本
+
+自定义方式为：修改 `umcsdk_strings.xml` 中对应的资源，如下。
+
+```xml
+<!-- 一键登录界面的 title -->
+<string name="umcsdk_quick_login_title">一键登录</string>
+
+<!-- 一键登录界面的登录按钮的文本 -->
+<string name="umcsdk_quick_login_button_text">本机号码一键登录</string>
+
+<!-- 实名认证登录界面的 title -->
+<string name="umcsdk_id_login_title">实名认证登录</string>
+
+<!-- 实名认证登录界面的登录按钮的文本-->
+<string name="umcsdk_id_login_button_text">本机号码实名登录</string>
+```
+
 # 3. 平台接口说明
 
 ## 3.1. 获取用户信息接口
