@@ -17,7 +17,7 @@ sdk技术问题沟通QQ群：609994083</br>
 
 ## 1.2. 导入SDK的jar文件
 
-1. 将`quick_login_android_**.jar`拷贝到应用工程的libs目录下，如没有该目录，可新建；
+1. 将`ID_Auth_android_**.jar`拷贝到应用工程的libs目录下，如没有该目录，可新建；
 2. 将sdk所需要的证书文件`clientCert.crt`、`serverPublicKey.pem`拷贝到项目`assets`目录下（证书需要从demo源码中拷贝到开发者的工程中）；
 3. 将sdk所需要的资源文件（anim, drawable, drawable-xxhdpi, layout, values文件，具体可参考demo工程）从res目录下的文件添加到项目工程中。
 
