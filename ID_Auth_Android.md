@@ -1,7 +1,7 @@
 # 1. 开发环境配置
 sdk技术问题沟通QQ群：609994083</br>
 
-**注：SDK在获取token过程中，用户手机必须在打开数据网络情况下才能成功，纯wifi环境下会自动跳转到SDK的短信验证码页面或短信上行取号（如果有配置）或者返回错误码**
+**注：SDK在获取token过程中，用户手机必须在打开数据网络情况下才能成功，纯wifi环境下会自动跳转到SDK的短信验证码页面（如果有配置）或者返回错误码**
 
 ## 1.1. 总体使用流程
 
@@ -110,7 +110,7 @@ mListener = new TokenListener() {
 ```java
 mAuthnHelper.getTokenExp(Constant.APP_ID, 
                          Constant.APP_KEY,
-                         AuthnHelper.AUTH_TYPE_DYNAMIC_SMS +                                                    AuthnHelper.AUTH_TYPE_SMS,
+                         AuthnHelper.AUTH_TYPE_DYNAMIC_SMS,
                          mListener);
 ```
 
@@ -242,17 +242,16 @@ public void getTokenExp(final String appId,
 | appId     | String        | 应用的AppID                                 |
 | appkey    | String        | 应用密钥                                     |
 | loginType | String        | 登录类型，AuthnHelper.UMC_LOGIN_DISPLAY       |
-| authType  | String        | 认证类型，目前支持网关鉴权、短验和短信上行，网关鉴权是默认必选认证类型，短验和短信上行是开发者可选认证:</br>1.短信验证码：AuthnHelper.AUTH_TYPE_DYNAMIC_SMS</br>2.短信上行：AuthnHelper.AUTH_TYPE_SMS</br> 参数为空时，默认只选择网关鉴权方式取号 |
+| authType  | String        | 认证类型，目前支持网关鉴权、短验，网关鉴权是默认必选认证类型，短验是开发者可选认证:</br>1.短信验证码：AuthnHelper.AUTH_TYPE_DYNAMIC_SMS</br></br> 参数为空时，默认只选择网关鉴权方式取号 |
 | listener  | TokenListener | TokenListener为回调监听器，是一个java接口，需要调用者自己实现；TokenListener是接口中的认证登录token回调接口，OnGetTokenComplete是该接口中唯一的抽象方法，即void OnGetTokenComplete(JSONObject  jsonobj) |
 
 **`authType`参数说明：**
 
-1. 开发者可单独选择其中一种认证类型，也可以用“+”号组合同时使用三种认证类型，**SDK登录认证优先级顺序为：网关取号 → 短信上行 → 短信验证码**。示例：`AuthnHelper.AUTH_TYPE_SMS + AuthnHelper.AUTH_TYPE_DYNAMIC_SMS`
-2. 一键登录（网关取号）失败后，将自动使用短信上行取号能力（如果`authType`参数包含短信上行能力），从网关取号切换到短信上行取号**需要用户发送短信权限**，取得权限后，切换过程无感知
-3. 网关取号和短信上行均失败时，将自动跳转到短信验证码页面（如果`authType`参数包含短验能力）
-4. 若开发者仅使用网关鉴权（`authType`为null），一键登录失败后，返回相应的错误码
-5. 如果开发者需要自定义短验页面，`authType`参数不能包含短信验证码能力；
-6. 如果开发者在授权页面布局中未隐藏“切换账号”按钮，用户点击按钮时，仍然会跳转到SDK自带的短验页面，因此，开发者如果完全不想使用SDK自带的短验功能，建议把“切换账号”隐藏。
+1. 开发者可单独选择其中一种认证类型，也可以用“+”号组合同时使用三种认证类型，**SDK登录认证优先级顺序为：网关取号 → 短信验证码**。示例：`AuthnHelper.AUTH_TYPE_WAP + AuthnHelper.AUTH_TYPE_DYNAMIC_SMS`
+2. 网关取号失败时，将自动跳转到短信验证码页面（如果`authType`参数包含短验能力）
+3. 若开发者仅使用网关鉴权（`authType`为null），一键登录失败后，返回相应的错误码
+4. 如果开发者需要自定义短验页面，`authType`参数不能包含短信验证码能力；
+5. 如果开发者在授权页面布局中未隐藏“切换账号”按钮，用户点击按钮时，仍然会跳转到SDK自带的短验页面，因此，开发者如果完全不想使用SDK自带的短验功能，建议把“切换账号”隐藏。
 
 </br>
 
@@ -264,7 +263,7 @@ OnGetTokenComplete的参数JSONObject，含义如下：
 | ----------- | ------ | ---------------------------------------- |
 | resultCode  | Int    | 接口返回码，“103000”为成功。具体响应码见4.1 SDK返回码       |
 | resultDesc  | String | 失败时返回：返回错误码说明                            |
-| authType    | String | 认证类型：0:其他；</br>1:WiFi下网关鉴权；</br>2:网关鉴权；</br>3:短信上行鉴权；</br>7:短信验证码登录 |
+| authType    | String | 认证类型：0:其他；</br>1:WiFi下网关鉴权；</br>2:网关鉴权；</br></br>7:短信验证码登录 |
 | authTypeDec | String | 认证类型描述，对应authType                        |
 | token       | String | 成功时返回：临时凭证，token有效期2min，一次有效；同一用户（手机号）10分钟内获取token且未使用的数量不超过30个 |
 | openId      | String | 成功时返回：用户身份唯一标识                           |
@@ -276,8 +275,11 @@ OnGetTokenComplete的参数JSONObject，含义如下：
 **请求示例代码**
 
 ```java
-mAuthnHelper.getTokenExp(Constant.APP_ID, Constant.APP_KEY,
-                 AuthnHelper.AUTH_TYPE_DYNAMIC_SMS + AuthnHelper.AUTH_TYPE_SMS, mListener);
+mAuthnHelper.getTokenExp(
+                 Constant.APP_ID, 
+                 Constant.APP_KEY,
+                 AuthnHelper.AUTH_TYPE_DYNAMIC_SMS, 
+		 mListener);
 ```
 
 **响应示例代码**
@@ -323,7 +325,7 @@ public void getIDToken(final String appId,
 | :------- | :------------ | :--------------------------------------- |
 | appId    | String        | 应用的AppID                                 |
 | appkey   | String        | 应用密钥                                     |
-| authType  | String        | 认证类型，目前支持网关鉴权和短信上行，网关鉴权是默认必选认证类型，短信上行是开发者可选认证:</br>短信上行：AuthnHelper.AUTH_TYPE_SMS</br> 参数为空时，默认只选择网关鉴权方式取号 |
+| authType  | String        | 认证类型，目前支持网关鉴权 </br> 参数为空时，默认选择网关鉴权方式取号 |
 | listener | TokenListener | TokenListener为回调监听器，是一个java接口，需要调用者自己实现；TokenListener是接口中的认证登录token回调接口，OnGetTokenComplete是该接口中唯一的抽象方法，即void OnGetTokenComplete(JSONObject  jsonobj) |
 
 </br>
@@ -336,7 +338,7 @@ OnGetTokenComplete的参数JSONObject，含义如下：
 | ----------- | ------ | ------------------------------------------------------------ |
 | resultCode  | Int    | 接口返回码，“103000”为成功。具体响应码见4.1 SDK返回码        |
 | resultDesc  | String | 失败时返回：返回错误码说明                                   |
-| authType    | String | 认证类型：0:其他；</br>1:WiFi下网关鉴权；</br>2:网关鉴权；</br>3:短信上行鉴权；</br>7:短信验证码登录 |
+| authType    | String | 认证类型：0:其他；</br>1:WiFi下网关鉴权；</br>2:网关鉴权； |
 | authTypeDec | String | 认证类型描述，对应authType                                   |
 | token       | String | 成功时返回：临时凭证，token有效期2min；同一用户（手机号）10分钟内获取token且未使用的数量不超过30个 |
 | openId      | String | 成功时返回：用户身份唯一标识                                 |
@@ -348,8 +350,10 @@ OnGetTokenComplete的参数JSONObject，含义如下：
 **请求示例代码**
 
 ```java
-mAuthnHelper.getIDToken(Constant.APP_ID, Constant.APP_KEY,
-                AuthnHelper.AUTH_TYPE_DYNAMIC_SMS + AuthnHelper.AUTH_TYPE_SMS, mListener);
+mAuthnHelper.getIDToken(
+                Constant.APP_ID, 
+		Constant.APP_KEY,
+                AuthnHelper.AUTH_TYPE_WAP, mListener);
 ```
 
 **响应示例代码**
