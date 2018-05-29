@@ -34,7 +34,6 @@ sdk技术问题沟通QQ群：609994083</br>
 <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-<uses-permission android:name="android.permission.SEND_SMS" />
 <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
 <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
 ```
@@ -614,13 +613,13 @@ public void setTimeOut(int timeOut)
 | 返回码    | 返回码描述                             |
 | ------ | --------------------------------- |
 | 103000 | 成功                                |
-| 102101 | 无网络                               |
-| 102102 | 网络异常                              |
-| 102103 | 未开启数据网络                           |
-| 102121 | 用户取消登录                            |
-| 102223 | 数据解析异常                            |
-| 102203 | 输入参数错误                            |
-| 102507 | 请求超时，预取号、buffer页取号、登录时请求超时        |
+| 200022 | 无网络                               |
+| 20047 | 网络异常                              |
+| 200022 | 未开启数据网络                           |
+| 200020 | 用户取消登录                            |
+| 200021 | 数据解析异常                            |
+| 200026 | 输入参数错误                            |
+| 200023 | 请求超时，预取号、buffer页取号、登录时请求超时        |
 | 200002 | 手机未安装sim卡                         |
 | 200005 | 用户未授权（READ_PHONE_STATE）           |
 | 200006 | 用户未授权（SEND_SMS）                   |
