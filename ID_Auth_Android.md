@@ -623,7 +623,7 @@ public void setTimeOut(int timeOut)
 | 200002 | 手机未安装sim卡                         |
 | 200005 | 用户未授权（READ_PHONE_STATE）           |
 | 200006 | 用户未授权（SEND_SMS）                   |
-| 200007 | authType仅使用短信验证码认证                |
+| 200007 | 不支持的认证方式 跳到短信验证码登录                |
 | 200008 | 1. authType参数为空；2. authType参数不合法； |
 | 200009 | 应用合法性校验失败（包名包签名未填写正确）             |
 | 200010 | 预取号时imsi获取失败或者没有sim卡              |
